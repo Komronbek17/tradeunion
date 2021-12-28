@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import AppLoginPage from "../views/AppLoginPage";
 import AppUserViewInfo from "../views/AppUserViewInfo";
-import {authHeader} from "../features/authHeader";
+import Cookies from 'js-cookie'
 
 Vue.use(VueRouter)
 
@@ -52,7 +52,7 @@ router.beforeEach((to, from, next) => {
     if (to.name === "login" || from.name === "login") {
         next();
     } else {
-        const AUTH_TOKEN = authHeader()
+        const AUTH_TOKEN = Cookies.get("___authorization___token___")
         if (!AUTH_TOKEN) {
             next({name: "login"});
         }

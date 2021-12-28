@@ -50,7 +50,7 @@ import {mapMutations} from 'vuex'
 import BaseSubmitButton from "../components/BaseSubmitButton";
 import api from "../services/Api";
 import Cookies from 'js-cookie'
-
+import authHeader from "../features/authHeader";
 export default {
   name: "AppLoginPage",
   components: {
@@ -75,6 +75,7 @@ export default {
         const params = {username, password};
         api.login(params).then((response) => {
           Cookies.set('___authorization___token___', response.data, {expires: 1 / 6})
+          authHeader.authToken = response.data
           this.$router.push({name: 'home'})
           this.userLoggedIn(true)
         }).catch((error) => {
@@ -130,7 +131,7 @@ export default {
   align-items: center;
   position: relative;
 
-  .form__input-icon{
+  .form__input-icon {
     position: absolute;
     top: 50%;
     left: 2%;
