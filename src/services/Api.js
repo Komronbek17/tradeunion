@@ -37,7 +37,7 @@ class Request extends Api {
     }
 
     addNewEmployee(params){
-        return this.put(`employee/addemployee`, params)
+        return this.post(`employee/addemployee`, params)
     }
 }
 
