@@ -29,12 +29,15 @@
       >
       </paginate>
     </div>
-    <modal :height="600" name="userEditorModal">
-      <TheUserEditorModal
-          @canceling-edit-user="$modal.hide('userEditorModal')"
-          :user="editUser"
-          :position="position"
-      />
+<!--    <modal :height="600" name="userEditorModal">-->
+<!--      <TheUserEditorModal-->
+<!--          @canceling-edit-user="$modal.hide('userEditorModal')"-->
+<!--          :user="editUser"-->
+<!--          :position="position"-->
+<!--      />-->
+<!--    </modal>-->
+    <modal :height="600" name="successResponse">
+        kms ols
     </modal>
   </div>
 </template>
@@ -96,7 +99,8 @@ export default {
         addUser: false,
         title: "Xodimni tahrirlash"
       }
-      this.$modal.show('userEditorModal')
+      // this.$modal.show('userEditorModal')
+      this.$modal.show('successResponse')
     },
     async paginated(page) {
       await this.getUsersInfo(page-1)

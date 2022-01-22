@@ -505,51 +505,50 @@ export default {
           },
         ]
 
-        const params = new FormData()
-        params.append('fullname', name)
-        params.append('regionId', regionId)
-        params.append('districtId', districtId)
-        params.append('companyId', companyId)
-        params.append('aboutRelative', aboutRelative)
-        params.append('lavozimivaQachondan', positionAndDate)
-        params.append('birthday', birthday)
-        params.append('nationality', nationality)
-        params.append('malumoti', education)
-        params.append('malumotiboyichamutaxasisligi', specialization)
-        params.append('ilmiydarajasi', academicDegree)
-        params.append('ilmiyunvoni', academicTitle)
-        params.append('chettillari', foreignLanguages)
-        params.append('davlatmukofotibilantaqdirlanganligiqanaqa', stateAward)
-        params.append('saylovorganiazosi', electedMember)
-        params.append('partiyaviyligi', partisanship)
-        params.append('tamomlaganjoyi', placeOfCompletion)
-        params.append('harbiyunvoni', militaryRank)
-        params.append('mehnatfaoliyati', laborActivity)
-        params.append('image', employeeImage)
+        // const params = new FormData()
+        // params.append('fullname', name)
+        // params.append('regionId', regionId)
+        // params.append('districtId', districtId)
+        // params.append('companyId', companyId)
+        // params.append('aboutRelative', aboutRelative)
+        // params.append('lavozimivaQachondan', positionAndDate)
+        // params.append('birthday', birthday)
+        // params.append('nationality', nationality)
+        // params.append('malumoti', education)
+        // params.append('malumotiboyichamutaxasisligi', specialization)
+        // params.append('ilmiydarajasi', academicDegree)
+        // params.append('ilmiyunvoni', academicTitle)
+        // params.append('chettillari', foreignLanguages)
+        // params.append('davlatmukofotibilantaqdirlanganligiqanaqa', stateAward)
+        // params.append('saylovorganiazosi', electedMember)
+        // params.append('partiyaviyligi', partisanship)
+        // params.append('tamomlaganjoyi', placeOfCompletion)
+        // params.append('harbiyunvoni', militaryRank)
+        // params.append('mehnatfaoliyati', laborActivity)
+        // params.append('image', employeeImage)
 
-        // const form = {
-        //   regionId,
-        //   districtId,
-        //   companyId,
-        //   birthday,
-        //   nationality,
-        //   aboutRelative,
-        //   fullname:name,
-        //   lavozimivaQachondan:positionAndDate,
-        //   malumoti:education,
-        //   malumotiboyichamutaxasisligi:specialization,
-        //   ilmiydarajasi:academicDegree,
-        //   ilmiyunvoni:academicTitle,
-        //   chettillari:foreignLanguages,
-        //   davlatmukofotibilantaqdirlanganligiqanaqa:stateAward,
-        //   saylovorganiazosi:electedMember,
-        //   partiyaviyligi:partisanship,
-        //   tamomlaganjoyi:placeOfCompletion,
-        //   harbiyunvoni:militaryRank,
-        //   mehnatfaoliyati:laborActivity,
-        //   image:employeeImage
-        // }
-        //
+        const form = {
+          regionId,
+          districtId,
+          companyId,
+          birthday,
+          nationality,
+          aboutRelative,
+          fullname: name,
+          lavozimivaQachondan: positionAndDate,
+          malumoti: education,
+          malumotiboyichamutaxasisligi: specialization,
+          ilmiydarajasi: academicDegree,
+          ilmiyunvoni: academicTitle,
+          chettillari: foreignLanguages,
+          davlatmukofotibilantaqdirlanganligiqanaqa: stateAward,
+          saylovorganiazosi: electedMember,
+          partiyaviyligi: partisanship,
+          tamomlaganjoyi: placeOfCompletion,
+          harbiyunvoni: militaryRank,
+          mehnatfaoliyati: laborActivity,
+          image: employeeImage
+        }
         // const params = JSON.stringify(form)
 
         // console.log(this.params)
@@ -558,14 +557,14 @@ export default {
         // }
 
         if (this.position.addUser) {
-          await api.addNewEmployee(params)
+          await api.addNewEmployee(form)
               .then(response => {
-                console.log(response)
+                this.$emit('added-successfully',response)
               })
         } else {
-          await api.editEmployeeInfo({id: this.user.id, params})
+          await api.editEmployeeInfo({id: this.user.id, form})
               .then(response => {
-                console.log(response)
+                this.$emit('response-error',response)
               })
         }
       }
@@ -587,9 +586,19 @@ export default {
         this.companies = response.data
       })
     },
-    uploadEmployeeImage(event) {
+    async uploadEmployeeImage(event) {
       if (event.target.files[0]) {
-        this.form.employeeImage = event.target.files[0]
+
+        const getBase64 = (file) => new Promise(function (resolve, reject) {
+          let reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => resolve(reader.result)
+          reader.onerror = (error) => reject('Error: ', error);
+        })
+
+        const file = event.target.files[0]
+
+        this.form.employeeImage = await getBase64(file)
       }
     }
   }

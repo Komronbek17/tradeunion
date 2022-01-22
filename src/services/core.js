@@ -24,6 +24,7 @@ class Api {
     }
 
     put(url, body = {}) {
+        console.log(body)
         return _axios.put(url, {
             headers: {
                 'Authorization': 'Bearer ' + Cookies.get("___authorization___token___")
